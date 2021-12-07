@@ -1,0 +1,8 @@
+# folders
+node_modules
+tmp
+upload
+
+# files
+package-lock.json
+yarn.lock
