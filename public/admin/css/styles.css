@@ -1,0 +1,16 @@
+.register_btn{
+	float: left;
+	width: 100%;
+	text-align: left;	
+	margin-bottom: 20px;
+	padding-left: 5px;
+	text-decoration: underline;
+}
+.p-t{
+	padding-top: 8px;
+}
+.answer-ta{
+  width: 100%;
+  background-color: transparent;
+  border: medium none;
+}

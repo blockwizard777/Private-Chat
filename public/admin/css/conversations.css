@@ -1,0 +1,123 @@
+/*
+    customize 
+    author :jumong
+    date   :2017-04-06 
+ */
+/*left contact form*/
+.left-contactform{
+    background-color: #ddd;
+    padding-top: 10px;
+}
+.ju-bots{
+    margin: 10px auto;
+    width: 100%;
+}
+.ju-bots select{
+    background-color: #ccc;
+}
+.ju-chat-users{
+    overflow-y: auto;
+    min-height: 400px;
+    margin:10px auto;
+}
+.ju-users-list{
+
+}
+.ju-chat-user{
+    padding: 8px 10px;
+    border-bottom: 1px solid #E7EAEC;
+}
+.ju-chat-user a {
+    color: inherit;
+}
+.ju-chat-avatar{
+    height: 45px;
+    float: left;
+    margin-top: 5px;
+    margin-right: 25px;
+}
+.ju-chat-user-name{
+    padding: 0px;
+}
+.ju-archive{
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #E7EAEC;
+    border-top: 1px solid #E7EAEC;
+}
+
+.ju-group{
+    margin: 3px 0;
+}
+
+/*right message room*/
+.msg-left{
+    float: left;
+    width: 100%
+}
+.msg-left .ju-message{
+    margin-left: 65px;
+}
+.msg-right{
+    float: right;
+    width: 100%
+}
+.msg-right .ju-message{
+    margin-right: 65px;
+}
+.msg-right .ju-message-avatar{
+    float: right;
+}
+
+.right-messageform{
+    padding: 0px 35px;
+    background: #eee;
+}
+.ju-chat-discussion {
+    min-height: 400px;
+    overflow-y: auto;
+    background-color: #ddd;
+}
+.ju-chat-message {
+    padding: 10px 20px;
+}
+.ju-message-avatar{
+    height: 48px;
+    float: left;
+    border: 1px solid #e7eaec;
+    margin-top: 1px;
+}
+.ju-message {
+    background-color: #fff;
+    border: 1px solid #e7eaec;
+    text-align: left;
+    display: block;
+    padding: 10px 20px;
+    position: relative;
+    border-radius: 4px;
+}
+.ju-message-author{
+
+}
+.ju-message-date{
+    font-size: 10px;
+    color: #888888;
+}
+.ju-message-content{
+    display: block;
+}
+.ju-chat-form{
+    padding: 10px 0px;
+    margin-top: 26px;
+}
+.ju-archive i{
+    font-size: 20px;
+}
+.ju-archive a span{
+    color:#676a6c;
+    font-size: 16px;
+    margin-left: 10px;
+}
+.cell-bot{
+    margin-bottom: 10px;
+}
