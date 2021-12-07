@@ -1,0 +1,49 @@
+<% include template/main_header.ejs %>
+<div class="wrapper wrapper-content" ng-app = "contactApp" ng-controller = "contactCtrl">
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <!--<div class="ibox-title">
+                    <h5>Contact Us</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>-->
+                <div class="ibox-content">
+                    <div class = "row question-area">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="form-group" style="margin:30px 0;text-align:center;">
+                                <h3>Contact US</h3>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" placeholder="Full name" class="form-control"  ng-model="fullname" required autofocus />
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="Email" class="form-control"  ng-model="myemail" required />
+
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea placeholder="Message Content" class="form-control" ng-model="messages" rows="6" required></textarea>
+                            </div>
+                            <div>
+                                <input type="button" value="Send" class="btn btn-primary pull-right m-t-n-xs" ng-click = "send()"/>
+                            </div>
+                        </div>
+                        <input type="hidden" id="username" value="<%=username%>"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include template/footer_login.ejs %>
+<script src="js/frontend/contact.js"></script>
+</body>
+</html>

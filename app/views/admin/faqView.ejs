@@ -1,0 +1,153 @@
+<% include template/header.ejs %>
+
+<body  ng-app="faqApp" ng-controller="faqCtrl">
+
+<div id="wrapper">
+    <% include template/left_navigation.ejs %>
+
+    <div id="page-wrapper" class="gray-bg">
+        <% include template/top_navigation.ejs %>
+
+        <!-- contents -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2 style="font-weight: bold">FAQ Manage</h2>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class ="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class ="row p-t">
+                                <div class = "col-md-8"></div>
+                                <div class = "col-md-2">
+                                    <a class= "btn btn-primary block full-width m-b dropdown-toggle" ng-href = "#add" data-toggle="modal"  data-hover="dropdown" data-delay="0" data-close-others="false">Add</a>
+                                </div>
+                                <div class = "col-md-2">
+                                    <button class= "btn btn-warning block full-width m-b" ng-click = "deleting()">Delete</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class ="row p-t">
+                                <table class="table table-striped table-bordered table-hover " id="editable" >
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">Question</th>
+                                        <th style="text-align:center;">Answer</th>
+                                        <th style="text-align:center;">Attach</th>
+                                        <th style="text-align:center;">Edit</th>
+                                        <th style="text-align:center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center">
+                                    <form>
+                                        <tr ng-repeat="data in faqs">
+                                            <td>{{data.question}}</td>
+                                            <td><textarea class = "answer-ta" readonly="" rows="5">{{data.answer}}</textarea></td>
+                                            <td>
+                                               <img ng-show ={{data.isAttached}} style="max-width:200px;" src="/uploads/faqAttach/{{data.attachName}}"</img>
+                                            </td>
+                                            <td>
+                                               <a ng-click = "edit(data._id)" value="" style="color: #999c9e;" title="edit" ng-href = "#edit" data-toggle="modal">
+                                                   <i class="fa fa-edit"></i>
+                                               </a>
+                                            </td>
+                                            <td>
+                                               <input type="checkbox" class = "chk-action" value="{{data._id}}" title="remove"/>
+                                            </td>
+                                        </tr>                                    
+                                    </form>
+                                </tbody>
+                                </table>
+                                <input type="hidden" id='serverData' value='<%=datas%>'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                
+        </div>
+        <!-- end contents -->
+        <!-- footer -->
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Private Chat Admin Panel &copy; 2017
+            </div>
+        </div>
+
+        <!-- end footer -->
+
+    </div>
+</div>
+
+<% include template/footer.ejs %>
+<!-- demo js -->
+<script src="/admin/js/demo/faq.js"></script>
+
+<div id="add" class="modal fade" aria-hidden="true">
+    <div id="modal_userLogin" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="m-t-none m-b">Question Add</h3>
+                        <div class="form-group question">
+                            <label>Question</label>
+                            <input type="text" placeholder="question" class="form-control "  ng-model="question" required autofocus />
+                        </div>
+                        <div class="form-group answer">
+                            <label>Answer</label>
+                            <textarea placeholder="answer" class="form-control " ng-model="answer" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Attach</label>
+                            <input type="file" class="form-control"></input>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>   
+                            <input type="submit" id="submit" value="Save" class="btn btn-primary pull-right m-t-n-xs" ng-click = "store()"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit" class="modal fade" aria-hidden="true">
+    <div id="modal_userLogin" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="m-t-none m-b">Question Add</h3>
+                        <div class="form-group editQuestion">
+                            <label>Question</label>
+                            <input type="text" placeholder="question" class="form-control "  ng-model="editFaq.question" required autofocus />
+                        </div>
+                        <div class="form-group editAnswer">
+                            <label>Answer</label>
+                            <textarea placeholder="answer" class="form-control " ng-model="editFaq.answer" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Attach</label>
+                            <input type="file" class="form-control"></input>
+                        </div>
+                        <div class="form-group">
+                              <img class="editImage" ng-show="editFaq.isAttached" style="max-width:200px;" src="/uploads/faqAttach/{{editFaq.attachName}}"</img>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>                
+                            <input type="submit" id="submit" value="Save" class="btn btn-primary pull-right m-t-n-xs" ng-click = "updateFaq()"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

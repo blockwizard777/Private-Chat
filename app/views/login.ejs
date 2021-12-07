@@ -1,0 +1,44 @@
+
+<% include template/header.ejs %>
+
+<body class="gray-bg" ng-app = "myApp" class="gray-bg" ng-controller = "loginCtrl">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">P.C</h1>
+            </div>
+            <h3>Welcome to <b>Private Chat</b></h3>
+            <p>Login in. To chat at here.</p>
+            <form class="m-t" role="form" method="POST">
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="text" placeholder="Username" class="form-control" ng-model="userName" required autofocus>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="password" placeholder="Password" class="form-control" ng-model="userPwd" required>
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    </div>
+                </div>
+                <div class="form-group err-input {{strError == '' ? 'hide' : ''}}">
+                    <p>
+                        <span class="label label-{{chkRes}}">{{strError}}</span>
+                    </p>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" ng-click="login()">Login</button>
+
+                <p class="text-muted text-center"><small>Do not have an account?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="/register">Create an account</a>
+            </form>
+            <p class="m-t"> <small>Private Chat is developed by Olive. &copy; 2017</small> </p>
+        </div>
+    </div>
+
+<% include template/footer.ejs %>
+<script  src="js/frontend/login.js"></script>
+</body>
+</html>
+

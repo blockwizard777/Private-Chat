@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Add Your favicon here -->
+    <link rel="icon" href="img/favicon.ico">
+    <title>Media Search Page</title>
+    <!-- Bootstrap core CSS -->
+    <link href="<%=url %>/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animation CSS -->
+    <link href="<%=url %>/css/animate.min.css" rel="stylesheet">
+    <link href="<%=url %>/css/style.css" rel="stylesheet">
+    <link href="<%=url %>/css/styles.css" rel="stylesheet">
+</head>
+<body ng-app="postMediaPage" ng-controller="postMediaController">
+<div id="page-top" >
+    <% include template/top_navigation.ejs %>
+</div>
+<div class="ibody">
+    <div class="container">
+        <div class="row wrapper border-bottom page-heading">
+            <div class="col-sm-4">
+                <h2>Media Post</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/home">home</a></li>
+                    <li><a href="/mypage">/mypage</a></li>
+                    <li><a href="/mypage/post">/my post</a></li>
+                </ol>           
+            </div>
+        </div>
+        <div class="row">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <!-- category part -->
+                        <div class ="row">
+                            <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#tab-video" data-toggle="tab">Video</a></li>
+                                                <li class=""><a href="#tab-music" data-toggle="tab">Music</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-video">
+                                                <div class="row">
+                                                <div class="col-md-6">
+                                                        <div class="video-view">
+                                                            <video controls  width="100%" height="auto">
+                                                                <source id = "preview_video" src="/myupload" type="video/mp4">
+                                                            </video>
+                                                        </div>
+                                                        <div class="detail">
+                                                            <div class="col-sm-6">
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                    <label title="Upload video file" class="btn btn-primary full-width">
+                                                                        <input type="file" accept="uploads/videos/*" name="videofile" id="inputVideo" class="hide"  file-model="myFile">
+                                                                        Open new video
+                                                                    </label>                                                            
+                                                            </div>                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class ="col-sm-8" style="padding:0">
+                                                                <div class ="col-sm-4 p-t">
+                                                                    <label class="control-label" style="font-weight:500" >Category : </label>
+                                                                </div>
+                                                                <div class ="col-sm-8">
+                                                                    <select class="form-control category">
+                                                                        <% 
+                                                                            for(var i in category){ 
+                                                                            if(category[i].categoryType == 'video') {%>
+                                                                                <option><%= category[i].categoryName %></option>
+                                                                        <% }
+                                                                    } %>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class ="row" style="padding:10px 15px">
+                                                            <input type="text" class="form-control" ng-model = "video_title" placeholder="title" required>
+                                                        </div>
+                                                        <div class="row" style="padding:10px 15px">
+                                                            <textarea class="form-control" id="description" ng-model="descriptions" placeholder="desription." required></textarea>   
+                                                        </div> 
+                                                        <hr></hr>
+                                                        <div class = "form-group">
+                                                            <p>
+                                                                You can post and cancel this video file.
+                                                            </p>
+                                                            <div class ="btn-post">
+                                                                <input type="submit" class="btn btn-primary block full-width m-b" ng-click = "posting('video', '<%=username %>','<%=userId %>')" value="Post" />
+                                                                <input type="submit" class="btn btn-warning block full-width m-b" ng-click = "cancel()" value="Cancel" />
+                                                            </div>    
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-music">
+                                                <div class="row">
+                                                <div class="col-md-6">
+                                                        <div class="video-view">
+                                                            <audio controls  width="100%" height="auto">
+                                                                <source src="/myuploadMusic" type="audio/mp3">
+                                                            </audio>
+                                                        </div>
+                                                        <div class="detail">
+                                                            <div class="col-sm-6">
+                                                                <div class="actions p-t">
+                                                                    <!-- <a class="btn btn-xs btn-white" ng-style=""><i class="fa fa-upload"></i> Post </a> -->
+
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                    <label title="Upload music file" class="btn btn-primary full-width">
+                                                                        <input type="file" name="videofile" id="inputMusic" class="hide"  file-model="myFile">
+                                                                        Open new music
+                                                                    </label>                                                            
+                                                            </div>                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class ="col-sm-8" style="padding:0">
+                                                                <div class ="col-sm-4 p-t">
+                                                                    <label class="control-label" style="font-weight:500" >Category : </label>
+                                                                </div>
+                                                                <div class ="col-sm-8">
+                                                                    <select class="form-control category1">
+                                                                        <% for(var i in category){ 
+                                                                            if(category[i].categoryType == 'music') {%>
+                                                                                <option><%= category[i].categoryName %></option>
+                                                                        <% }
+                                                                    } %>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class ="row" style="padding:10px 15px">
+                                                            <input type="text" class="form-control" ng-model = "video_title" placeholder="title" required>
+                                                        </div>
+                                                        <div class="row" style="padding:10px 15px">
+                                                            <textarea class="form-control" id="description" ng-model="descriptions" placeholder="desription." required></textarea>   
+                                                        </div> 
+                                                        <hr></hr>
+                                                        <div class = "form-group">
+                                                            <p>
+                                                                You can post and cancel this music file.
+                                                            </p>
+                                                            <div class ="btn-post">
+                                                                <input type="submit" class="btn btn-primary block full-width m-b" ng-click = "posting('music', '<%=username %>','<%=userId %>')" value="Post" />
+                                                                <input type="submit" class="btn btn-warning block full-width m-b" ng-click = "cancel()" value="Cancel" />
+                                                            </div>    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script src="<%=url %>/js/jquery.min.js"></script>
+<script src="<%=url %>/js/pace.min.js"></script>
+<script src="<%=url %>/js/bootstrap.min.js"></script>
+<script src="<%=url %>/js/classie.js"></script>
+<script src="<%=url %>/js/cbpAnimatedHeader.js"></script>
+<script src="<%=url %>/js/wow.min.js"></script>
+<script src="<%=url %>/js/inspinia.js"></script>
+<script src="<%=url %>/js/angular.min.js"></script>
+<script src="<%=url %>/src/postMediaPage.js"></script>
+</body>
+</html>

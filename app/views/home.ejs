@@ -1,0 +1,271 @@
+<% include template/main_header.ejs %>
+<link href="css/plugins/dropzone/dropzone.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content hide" ng-app = "myApp" ng-controller = "homeCtrl">
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>User status</h5>
+                    <div class="ibox-tools tooltip-area">
+                        <a class="btn-link">
+                            <span class="label label-info" ng-init="nUserOnline=0" data-toggle="tooltip" data-placement="bottom" title="Online">{{nUserOnline}}</span>
+                        </a>
+                        <a class="btn-link">
+                            <span class="label label-gray"  data-toggle="tooltip" data-placement="bottom" title="Offline">{{arrUserList.length - nUserOnline}}</span>
+                        </a>
+                        <a class="btn-link" ng-click="onShowCreateRoom()">
+                            <i class="fa fa-users" data-toggle="tooltip" data-placement="bottom" title="Create a room"></i>
+                        </a>
+                        <button class="hide" data-toggle="modal" data-target="#dlg-room-name" id="btn-create-room"></button>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content can-error">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="chat-users">
+                                <div class="users-list">
+                                    <p class="list-title">User List</p>
+                                    
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Search user..." class="input-sm form-control" ng-model = "searchName.userName" ng-change="roomSearchName.roomName=searchName.userName">
+                                        <input type="hidden" value = "{{searchName.userName}}" ng-model="roomSearchName.roomName">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"> </i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="chat-user {{userInfo.selected ? 'selected' : ''}}" 
+                                        ng-repeat = "userInfo in arrUserList | filter : searchName | orderBy: 'userName'" 
+                                        ng-click="onClickUser(userInfo)"> 
+                                        <img class="chat-avatar" src="uploads/profile/{{userInfo._id}}" alt="">
+                                        <div class="chat-user-name">
+                                            <a href="#">{{userInfo.userName}}
+                                                <span class="pull-right"><i class="fa fa-circle {{userInfo.status ? 'text-info' : text-gray}}"></i></span></a>
+                                                <span class="label label-warning pull-right {{userInfo.new ? '' : 'hide'}}">{{userInfo.new}}</span>
+                                                <span class="label label-success pull-right {{userInfo.isTyping ? 'show' : 'hide'}}">Typing...<!--<img class="img-typing" src="img/loader.gif">--></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="list-title">My Rooms</p>
+                                    <div class=" tooltip-area chat-user {{roomInfo.selected ? 'selected' : ''}}" 
+                                        ng-repeat = "roomInfo in arrMyRooms | filter: roomSearchName | orderBy: 'roomName'" >
+                                        <img class="chat-avatar" src="uploads/profile/{{roomInfo.userId._id}}" alt="">
+                                        
+                                        <a class="btn-room-right btn-link" ng-click="onRemoveRoom(roomInfo)" data-toggle="tooltip" data-placement="bottom" title="remove">
+                                            <span class="pull-right"><i class="fa fa-remove text-gray"></i></span></a>
+
+                                        <div class="chat-user-name" ng-click="onClickMyRoom(roomInfo)">
+                                            <a href="#">{{roomInfo.roomName}}
+                                                <span class="pull-right"><i class="fa fa-circle {{roomInfo.state ? 'text-info' : text-gray}}"></i></span></a>
+                                                <span class="label label-success pull-right {{roomInfo.alarm ? '' : 'hide'}}">{{roomInfo.alarm}}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="list-title">Invited Rooms</p>
+                                    <div class="chat-user {{roomInfo.selected ? 'selected' : ''}}" 
+                                        ng-repeat = "roomInfo in arrInvitedRooms | filter: roomSearchName | orderBy: 'roomName'" 
+                                        ng-click="onClickInvRoom(roomInfo)">
+                                        <img class="chat-avatar" src="uploads/profile/{{roomInfo.userId._id}}" alt="">
+                                        <div class="chat-user-name">
+                                            <a href="#">{{roomInfo.roomName}}
+                                                <span class="pull-right"><i class="fa fa-circle {{roomInfo.state ? 'text-info' : text-gray}}"></i></span>
+                                                <span class="label label-warning pull-right {{roomInfo.new ? '' : 'hide'}}">NEW!</span>
+                                                <span class="label label-success pull-right {{roomInfo.alarm ? '' : 'hide'}}">{{roomInfo.alarm}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md-9">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Chat Panel</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <!--<a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>-->
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12 tooltip-area">
+                            <div class="chat-room-users
+                                        {{curRoomInfo == null ? 'hide' : 'show'}} 
+                                        {{curRoomInfo.userId._id == ownerUser._id ? 'myroom' : ''}}">
+                                <div class="btn-group pull-right {{curRoomInfo.userId._id == ownerUser._id ? 'show' : 'hide'}}">
+                                    <button type="button" 
+                                        class="btn btn-warning {{curRoomInfo.state ? '' : 'hide'}}"
+                                        ng-click="onToggleRoomState()">
+                                        End Chat</button>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <img src="uploads/profile/{{curRoomInfo.userId._id}}" 
+                                            title="{{curRoomInfo.userId.userName}}" data-toggle="tooltip" data-placement="bottom">
+                                    </li>
+                                    <li ng-repeat="roomUser in curRoomInfo.invited">
+                                        <img src="uploads/profile/{{roomUser._id}}" title="{{roomUser.userName}}" data-toggle="tooltip" data-placement="bottom">
+                                    </li>
+                                </ul>
+                            </div>
+                        <form id="my-awesome-dropzone" class="dropzone" action="#">
+                            <div class="chat-discussion {{curRoomInfo == null ? '' : 'in-room'}}">
+                                <div class="direct-chat-messages">
+
+                                    <!-- Message to the right -->
+                                    <div ng-repeat = "chatMsg in arrChatList"
+                                        class="direct-chat-msg
+                                            {{chatMsg.isMyMessage ? '' : 'right'}}" >
+
+                                        <img class="direct-chat-img 
+                                                    {{chatMsg.isSameAsUp ? 'hide' : ''}}
+                                                    {{chatMsg.isMyMessage ? 'pull-left' : 'pull-right'}}" 
+                                            src="uploads/profile/{{chatMsg.sender_id}}" 
+                                            title="{{chatMsg.sender_name}}"><!-- /.direct-chat-img -->
+
+                                        <!--<img class="direct-chat-img pull-right {{chatMsg.receiver_id == 0 ? 'hide' : 'show'}}" 
+                                            src="uploads/profile/{{chatMsg.receiver_id}}" 
+                                            title="{{chatMsg.receiver_name}}">--><!-- /.direct-chat-img -->
+
+
+                                        <div class="direct-chat-text {{chatMsg.isRead == 0 ? 'notRead' : ''}} 
+                                                                    {{chatMsg.isSameAsUp ? 'hide' : ''}}">
+
+                                            <p class="{{chatMsg.attachFile == '' ? '' : 'hide'}}
+                                                      {{chatMsg.isMyMessage ? 'pull-left' : 'pull-right'}}">{{chatMsg.msg}}</p>
+                                            <a class="{{chatMsg.attachFile != '' ? '' : 'hide'}}
+                                                      {{chatMsg.isMyMessage ? 'pull-left' : 'pull-right'}}"
+                                                href="/downloadUploadedFile/{{curRoomInfo ? curRoomInfo._id : 0}}/{{chatMsg._id}}">
+                                                {{chatMsg.msg}}<br>
+                                                <img src="{{chatMsg.isImage ? '/downloadUploadedFile/' + (curRoomInfo ? curRoomInfo._id : 0) + '/' + chatMsg._id : ''}}">
+                                            </a>
+                                            
+                                            <div class="direct-chat-info clearfix">
+                                                <!--<span class="direct-chat-name hide {{chatMsg.isMyMessage ? 'pull-right' : 'pull-left'}}">
+                                                    {{chatMsg.isMyMessage ? chatMsg.receiver_name : chatMsg.sender_name}}</span>-->
+                                                <span class="direct-chat-timestamp 
+                                                            {{chatMsg.isSameAsUp ? 'hide' : ''}}
+                                                            {{chatMsg.isMyMessage ? 'pull-left' : 'pull-right'}}">{{chatMsg.created}}</span>
+                                            </div><!-- /.direct-chat-info -->
+                                        </div><!-- /.direct-chat-text -->
+                                        
+                                    </div><!-- /.direct-chat-msg -->
+                                    
+                                </div><!--/.direct-chat-messages-->
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="message" placeholder="Enter message text" autofocus ng-keypress="onChatKeydown($event)" ng-model="strChatMsg"/>
+                                <span class="input-group-btn">
+                                    <label class="btn btn-primary" id="btn-uploadfile"><i class="fa fa-paperclip"> </i><input class="dz-message hide"></input></label>
+                                    <button type="button" class="btn btn-primary" ng-click="onSendMsg()"><i class="fa fa-send"> </i></button></span>
+                            </div>
+                            <div class="dropzone-previews"></div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dialogs -->
+        <div class="modal inmodal" id="dlg-room-name" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated fadeIn">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Create Room</h4>
+                        <small class="font-bold">Using this, you can chat with your friends.<br>
+                            Input room name and select users.</small>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>RoomTitle : </label>
+                            <input type="text" placeholder="Room Title. Ex: Jame's room.'" class="form-control" id="edt-room-name" ng-model="strRoomName">
+                        </div>
+                        
+                        <div class="chat-users can-error" style="overflow-x: auto;height: 400px;">
+                            <div class="users-list">
+                                <p class="list-title">User List</p>
+
+                                <div class="input-group"><input type="text" placeholder="Search..." class="input-sm form-control" ng-model = "dlgSearchName.userName">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"> </i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="chat-user {{userInfo.rselected ? 'selected' : ''}}" 
+                                    ng-repeat = "userInfo in arrUserList | filter : dlgSearchName | orderBy: 'userName'" 
+                                    ng-click="onSelectRoomUser(userInfo)">
+                                    <img class="chat-avatar" src="uploads/profile/{{userInfo._id}}" alt="">
+                                    <div class="chat-user-name">
+                                        <a href="#">{{userInfo.userName}}
+                                            <span class="pull-right"><i class="fa fa-circle {{userInfo.status ? 'text-info' : text-gray}}"></i></span></a>
+                                            <span class="label label-warning pull-right {{userInfo.new ? '' : 'hide'}}">{{userInfo.new}}</span>
+                                            <span class="label label-success pull-right {{userInfo.isTyping ? 'show' : 'hide'}}">Typing...<!--<img class="img-typing" src="img/loader.gif">--></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" ng-click="onCreateRoom()">Create Room</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div class="modal inmodal" id="dlg-alert" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated fadeIn">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Error!</h4>
+                        <small class="font-bold"></small>
+                    </div>
+                    <div class="modal-body">
+                        <p>The chatting room is paused. You can't chat any more.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<% include template/footer_login.ejs %>
+
+<!-- DROPZONE -->
+<script src="js/plugins/dropzone/dropzone.js"></script>
+
+<!-- Toastr script -->
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/inspinia.js"></script>
+<script  src="js/frontend/home.js"></script>
+</body>
+</html>

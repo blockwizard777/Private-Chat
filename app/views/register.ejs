@@ -1,0 +1,92 @@
+<% include template/header.ejs %>
+
+<body class="gray-bg"  ng-app = "myApp" ng-controller = "registerCtrl">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">P.C</h1>
+
+            </div>
+            <h3>Register to me</h3>
+            <p>Create account to see it in action.</p>
+            <form class="m-t" role="form" method="POST">
+                <div class="img-circle circle-border m-b-md">
+                    <label>
+                        <i class="fa fa-user" id="i-profile"></i>
+                        <img src="{{imgSrc}}" class="img-circle hide" alt="profile" id="img-profile">
+                        <input type="file" class="hide" file-model="inputFile"/>
+                    </label>
+                </div>
+                <div class="form-group err-input" ng-hide = "strImgError == '' ? true : false">
+                    <p>
+                        <span class="label label-{{chkRes}}">{{strImgError}}</span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="text" placeholder="Username" class="form-control" ng-model="userName" ng-change="strUserNameError=''" required autofocus>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    </div>
+                </div>
+                <div class="form-group err-input" ng-hide = "strUserNameError == '' ? true : false">
+                    <p>
+                        <span class="label label-danger">{{strUserNameError}}</span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="email" placeholder="Email" class="form-control" ng-model="email" ng-change="strEmailError=''" required>
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                    </div>
+                </div>
+                <div class="form-group err-input" ng-hide = "strEmailError == '' ? true : false">
+                    <p>
+                        <span class="label label-danger">{{strEmailError}}</span>
+                    </p>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="password" placeholder="Password" class="form-control" ng-model="userPwd" ng-change="strPwdError=''" required>
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    </div>
+                </div>
+                <div class="form-group err-input" ng-hide = "strPwdError == '' ? true : false">
+                    <p>
+                        <span class="label label-danger">{{strPwdError}}</span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="password" placeholder="Retype password" class="form-control" ng-model="userRePwd" ng-change="strRePwdError=''" required>
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    </div>
+                </div>
+                <div class="form-group err-input" ng-hide = "strRePwdError == '' ? true : false">
+                    <p>
+                        <span class="label label-danger">{{strRePwdError}}</span>
+                    </p>
+                </div>
+
+                <button  type = "button" class="btn btn-primary block full-width m-b" ng-click="register()">Register</button>
+
+                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="/login">Login</a>
+            </form>
+            
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+   
+   
+<% include template/footer.ejs %>
+ <script src="js/frontend/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<% include template/header.ejs %>
+<body id="page-top" ng-app="showDetailPage" ng-controller="showDetailCtrl">
+<% include template/top_navigation.ejs %>
+<div class="ibody">
+    <div class="container">
+        <div class="row wrapper border-bottom page-heading">
+            <div class="col-sm-10">
+                <h2>Detail</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/home">Home</a>
+                    </li>   
+                    <li class="active">
+                        <strong>Show Detail</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class = "col-sm-2 link-return">
+                <a class ="pull-right" ng-click="goback()"><i class = "fa fa-reply"></i>Return to list</a>
+            </div>  
+        </div>
+        <div class="row">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class ="row">
+                        <div class="col-md-12">
+                            <div class="video-view" style ="padding: 10px 50px">
+                                <% if( data.categoryType == "video"){ %>
+                                    <video controls  width="100%" height="auto">
+                                        <source id = "preview_video" src="/uploads/videos/<%=data.mediaUrl%>" type="video/mp4">
+                                    </video>
+                                <% } else {%>
+                                    <audio controls  width="100%" height="auto">
+                                        <source src="/uploads/musics/<%=data.mediaUrl%>" type="audio/mp3">
+                                    </audio>
+                                <% } %>
+                            </div>
+                            <div class="detail" style="padding:5px 50px;">
+                                <div class = "row">
+                                    <div class="col-sm-3">
+                                        <div class="actions p-t">
+                                            <a class="btn btn-xs btn-white "   style = " background-color :#D0F380"><i class="fa fa-heart"></i> View: <%= data.cnt_view %></a>
+                                                 <% 
+                                                    if(data.posterName != username )
+                                                    {
+                                                        var isLiked = false;
+                                                        for(var i = 0;i<data.likedUsers.length ; i++)
+                                                        {
+                                                            if(data.likedUsers[i] == username)
+                                                            {
+                                                                isLiked = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(isLiked == true) 
+                                                        {
+                                                 %>
+                                                 <a class="btn btn-xs btn-white liking"  ng-style="sel" ng-click = "seleting('like', '<%= data._id %>')" style = " background-color :#D0F380"><i class="fa fa-heart"></i> Like </a>
+                                                 <% } else { %>
+                                                 <a class="btn btn-xs btn-white liking"  ng-style="sel" ng-click = "seleting('like', '<%= data._id %>')"><i class="fa fa-heart"></i> Like </a>
+                                                 <% } %>
+                                                 <% 
+                                                        var isFollowed = false;
+                                                        for(var i = 0;i<data.posterId.followedUsers.length ; i++)
+                                                        {
+                                                            if(data.posterId.followedUsers[i] == username)
+                                                            {
+                                                                isFollowed = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(isFollowed == true) 
+                                                        {
+                                                %>
+                                                <a class="btn btn-xs btn-white follow" style = " background-color :#D0F380"   ng-style="sel" ng-click = "seleting('follow', '<%= data._id %>')"><i class="fa fa-thumbs-up"></i> Follow </a>
+                                                <% } else { %>
+                                                <a class="btn btn-xs btn-white follow"  ng-style="sel" ng-click = "seleting('follow', '<%= data._id %>')"><i class="fa fa-thumbs-up"></i> Follow </a>
+                                                <% } }%>  
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id ="username" value="<%=username%>"/>
+                                    <input type="hidden" id ="categoryType" value="<%=data.categoryType%>"/>
+                                    <input type="hidden" id ="mediaUrl" value="<%=data.mediaUrl%>"/>
+                                    <div class ="col-sm-2 p-t">
+                                        <label class="control-label" style="font-weight:500" >Category : <strong id="categoryName"><%=data.categoryName %></strong></label>
+                                    </div>
+                                    <div class ="col-sm-2 p-t">
+                                        <label class="control-label" style="font-weight:500" >Poster : <strong id="posterName"><%=data.posterName %></strong></label>
+                                    </div>
+                                    <div class ="col-sm-5 p-t">
+                                        <label class="control-label" style="font-weight:500">PostDate : <strong id="created"><%=data.created %></strong></label>
+                                    </div>
+                                </div>
+                                <hr></hr>
+                                <div class ="row" style="padding:10px 15px">
+                                    <h4 id="title"><%=data.title %></h4>
+                                </div>
+                                <div class="row" style="padding:10px 15px">
+                                    <p class="control-label" style="font-weight:500" id="description"><%=data.descriptions %></p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="contact" class="gray-section contact">
+    <div class="container">        
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+               
+            </div>
+        </div>             
+    </div>
+</section>
+<% include template/footer.ejs %>
+<script src = "/src/showdetail.js"></script>
+</body>
+</html>

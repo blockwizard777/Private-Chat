@@ -1,0 +1,142 @@
+<% include template/header.ejs %>
+<body ng-app  = "commonPage" ng-controller="commonCtrl">
+<div class="navbar-wrapper">
+    <% include template/top_navigation.ejs %>
+</div>
+<div class="ibody">
+    <div class="container">
+        <div class="row wrapper border-bottom page-heading">
+            <div class="col-sm-4">
+                <h2>Media Post</h2>
+                <ol class="breadcrumb">
+                    <li> <a href="/home">home</a></li>
+                    <li><a href="/showLastCreated">LastCreated</a></li>
+                </ol>
+            </div>
+
+             <div class = "col-sm-8" style ="padding-top:50px; padding-right:50px;">
+                <a href="/mypage/postMedia" class= "btn btn-sm btn-primary pull-right m-t-n-xs">POST </a>
+            </div>
+        </div>
+
+       <div class="row">
+            <div class="ibox">
+                <div class="ibox-content">
+                      <div class ="row">
+                        <h4>Videos</h4>
+                      
+                       <% datas.forEach(function(data){ 
+                            if(data.categoryType == 'video') {%>
+                                <div class = "col-sm-3">
+                                    <div class ="img-item">
+                                        <a href ="/showDetail/<%=data._id%>/">
+                                        <img class ="img-responsive" src="img/yoga3.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="actions cus-actions">
+                                       <a class="btn btn-xs btn-white "   style = " background-color :#D0F380"><i class="fa fa-heart"></i> View: <%= data.cnt_view %></a>
+                                                <% 
+                                                    if(data.posterName != username)
+                                                    {
+                                                        var isLiked = false;
+                                                        for(var i = 0;i<data.likedUsers.length ; i++)
+                                                        {
+                                                            if(data.likedUsers[i] == username)
+                                                            {
+                                                                    isLiked = true;
+                                                                     break;
+                                                            } 
+                                                        }
+                                                        if(isLiked == true) 
+                                                        {
+                                                 %>
+                                                 <a class="btn btn-xs btn-white liking"  id ="media<%=data._id%>" ng-style="sel" ng-click = "seleting('like', '<%= data._id %>','<%= data.posterName%>')" style = " background-color :#D0F380"><i class="fa fa-heart"></i> Like </a>
+                                                 <% } else { %>
+                                                 <a class="btn btn-xs btn-white liking"  id ="media<%=data._id%>" ng-style="sel" ng-click = "seleting('like', '<%= data._id %>','<%= data.posterName%>')"><i class="fa fa-heart"></i> Like </a>
+                                                 <% } %>
+                                                 <% 
+                                                        var isFollowed = false;
+                                                        for(var i = 0;i<data.posterId.followedUsers.length ; i++)
+                                                        {
+                                                             if(data.posterId.followedUsers[i] == username)
+                                                             {
+                                                                isFollowed = true;
+                                                                break;
+                                                             } 
+                                                        }
+                                                        if(isFollowed == true) 
+                                                        {
+                                                %>
+                                                <a class="btn btn-xs btn-white follow" id ="mediaF<%=data._id%>" style = " background-color :#D0F380"   ng-style="sel" ng-click = "seleting('follow', '<%= data._id %>','<%= data.posterName%>')"><i class="fa fa-thumbs-up"></i> Follow </a>
+                                                <% } else { %>
+                                                <a class="btn btn-xs btn-white follow" id ="mediaF<%=data._id%>"  ng-style="sel" ng-click = "seleting('follow', '<%= data._id %>','<%= data.posterName%>')"><i class="fa fa-thumbs-up"></i> Follow </a>
+                                                <% } 
+                                                }%>                           
+                                    </div>
+                                </div>
+                            <% }
+                        } )%>
+                      </div>
+                      <hr></hr>
+                      <div class ="row">
+                        <h4>Musics</h4>
+                        <% datas.forEach(function(data){ 
+                            if(data.categoryType == 'music') {%>
+                                <div class = "col-sm-3">
+                                    <div class ="img-item">
+                                        <a href ="/showDetail/<%=data._id%>">
+                                        <img class ="img-responsive" src="img/yoga2.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="actions cus-actions">
+                                        <a class="btn btn-xs btn-white "   style = " background-color :#D0F380"><i class="fa fa-heart"></i> View: <%= data.cnt_view %></a>
+                                                <% 
+                                                    if(data.posterName != username)
+                                                    {
+                                                        var isLiked = false;
+                                                        for(var i = 0;i<data.likedUsers.length ; i++)
+                                                        {
+                                                             if(data.likedUsers[i] == username)
+                                                             {
+                                                                isLiked = true;
+                                                                break;
+                                                             }
+                                                        }
+                                                        if(isLiked == true) 
+                                                        {
+                                                 %>
+                                                 <a class="btn btn-xs btn-white liking"  id ="media<%=data._id%>" ng-style="sel" ng-click = "seleting('like', '<%= data._id %>','<%= data.posterName%>')" style = " background-color :#D0F380"><i class="fa fa-heart"></i> Like </a>
+                                                 <% } else { %>
+                                                 <a class="btn btn-xs btn-white liking"   id ="media<%=data._id%>"ng-style="sel" ng-click = "seleting('like', '<%= data._id %>','<%= data.posterName%>')"><i class="fa fa-heart"></i> Like </a>
+                                                 <% } %>
+                                                 <% 
+                                                        var isFollowed = false;
+                                                        for(var i = 0;i<data.posterId.followedUsers.length ; i++)
+                                                        {
+                                                             if(data.posterId.followedUsers[i] == username)
+                                                            {
+                                                                isFollowed = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(isFollowed == true) 
+                                                        {
+                                                %>
+                                                <a class="btn btn-xs btn-white follow"  id ="mediaF<%=data._id%>" style = " background-color :#D0F380"   ng-style="sel" ng-click = "seleting('follow', '<%= data._id %>','<%= data.posterName%>')"><i class="fa fa-thumbs-up"></i> Follow </a>
+                                                <% } else { %>
+                                                <a class="btn btn-xs btn-white follow"  id ="mediaF<%=data._id%>" ng-style="sel" ng-click = "seleting('follow', '<%= data._id %>','<%= data.posterName%>')"><i class="fa fa-thumbs-up"></i> Follow </a>
+                                                <% }} %>                                   
+                                    </div>
+                                </div>
+                            <% }
+                        }) %>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include template/footer.ejs %>
+<script src="/src/common.js"></script>
+</body>
+</html>

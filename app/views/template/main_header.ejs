@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Add Your favicon here -->
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>Private Chat</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
+</head>
+
+<body class="top-navigation">
+
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom white-bg">
+        <nav class="navbar navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <i class="fa fa-reorder"></i>
+                </button>
+                <a href="#" class="navbar-brand">Private Chat</a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar">
+                <ul class="nav navbar-nav navbar-right" style="margin-right : 30px;">
+                    <li class="<%=pagename == 'home' ? 'active' : ''%>">
+                        <a aria-expanded="false" role="button" href="/home"> Home</a></li>
+                    <li class="<%=pagename == 'faq' ? 'active' : ''%>">
+                        <a aria-expanded="false" role="button" href="/faq"> FAQ</a></li>
+                    <li class="<%=pagename == 'contact' ? 'active' : ''%>">
+                        <a aria-expanded="false" role="button" href="/contact"> Contact Us</a></li>
+                    <li class="dropdown">
+                        <a class="page-scroll dropdown-toggle top-menu-dropdown" data-toggle="dropdown" href="#">
+                            <img src="/uploads/profile/<%= user._id %>">&nbsp;&nbsp;<%= user.userName %><span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/edit">Edit</a>
+                            </li>
+                            <li>
+                                <a href="/changePassword">ChangePassword</a>
+                            </li>
+                            <li>
+                                <a href="/logout">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>

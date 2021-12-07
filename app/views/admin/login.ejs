@@ -1,0 +1,37 @@
+
+<% include template/header.ejs %>
+
+<body ng-app = "myApp" class="gray-bg" ng-controller = "loginCtrl">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+              <h1 class="logo-name">P.C</h1>
+            </div>
+            <h3>Welcome to Administrator homepage</h3>
+            <p>Please input user name and password</p>
+            <form class="m-t" role="form" method = "POST">
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input class="form-control" placeholder="Username" ng-model="user_name" required autofocus>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group m-b">
+                        <input type="password" class="form-control" placeholder="Password" ng-model = "user_password" required="">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary block full-width m-b" ng-click="login()">Login</button>
+            </form>
+            <p class="m-t"> <small>Private Chat is developed by OCA. &copy; 2017</small> </p>
+        </div>
+    </div>
+<% include template/footer.ejs %>
+<script  src="admin/js/demo/adminLogin.js"></script>
+</body>
+</html>
+
